@@ -73,6 +73,7 @@ class RangerROSMessenger : public std::enable_shared_from_this<RangerROSMessenge
   void SetupSubscription();
   void PublishStateToROS();
   void PublishSimStateToROS(double linear, double angular);
+  void TimerCallback();
   void TwistCmdCallback(geometry_msgs::msg::Twist::SharedPtr msg);
   double CalculateSteeringAngle(geometry_msgs::msg::Twist msg, double& radius);
   void UpdateOdometry(double linear, double angular, double angle, double dt);
@@ -112,6 +113,8 @@ class RangerROSMessenger : public std::enable_shared_from_this<RangerROSMessenge
   rclcpp::Publisher<sensor_msgs::msg::BatteryState>::SharedPtr battery_state_pub_;
 
   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr motion_cmd_sub_;
+
+  rclcpp::TimerBase::SharedPtr timer_;
 
   rclcpp::Service<ranger_msgs::srv::TriggerParkMode>::SharedPtr trigger_parking_server;
 

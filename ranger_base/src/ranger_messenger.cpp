@@ -173,6 +173,21 @@ void RangerROSMessenger::SetupSubscription() {
                     std::placeholders::_1, std::placeholders::_2));
 
   tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(node_);
+
+  // timer
+  using namespace std::chrono_literals;
+
+  timer_ = rclcpp::create_timer(node_, node_->get_clock(), 1000ms,
+                                std::bind(&RangerROSMessenger::TimerCallback, this));
+}
+
+void RangerROSMessenger::TimerCallback() {
+  auto state = robot_->GetRobotState();
+  if (state.system_state.error_code != 0x00)
+  {
+    RCLCPP_ERROR(node_->get_logger(), "resetting ... robot_error code %d", state.system_state.error_code);
+    robot_->ResetRobotState();
+  }
 }
 
 void RangerROSMessenger::PublishStateToROS() {
