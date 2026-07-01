@@ -536,10 +536,10 @@ double RangerROSMessenger::CalculateSteeringAngle(geometry_msgs::msg::Twist msg,
   radius = linear / angular;
   int k = (msg.angular.z * msg.linear.x) >= 0 ? 1.0 : -1.0;
 
-  double l, w, phi_i, x;
+  double l, /*w,*/ phi_i/*, x*/;
   l = robot_params_.wheelbase;
-  w = robot_params_.track;
-  x = sqrt(radius * radius + (l / 2) * (l / 2));
+  // w = robot_params_.track;
+  // x = sqrt(radius * radius + (l / 2) * (l / 2));
   // phi_i = atan((l / 2) / (x - w / 2));
   phi_i = atan((l / 2) / radius);
   return k * phi_i;
