@@ -183,10 +183,10 @@ void RangerROSMessenger::SetupSubscription() {
 
 void RangerROSMessenger::TimerCallback() {
   auto state = robot_->GetRobotState();
-  RCLCPP_ERROR(node_->get_logger(), "system state error code %d", state.system_state.error_code);
-  if (state.system_state.error_code != 0x00)
+  RCLCPP_ERROR(node_->get_logger(), "system state error code %d", state.system_state.error_code2);
+  if (state.system_state.error_code2 != 0x00)
   {
-    RCLCPP_ERROR(node_->get_logger(), "resetting ... robot_error code %d", state.system_state.error_code);
+    RCLCPP_ERROR(node_->get_logger(), "resetting ... robot_error code %d", state.system_state.error_code2);
     robot_->ResetRobotState();
   }
 }
